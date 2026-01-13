@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>MiniDuolingo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f7f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .app {
+      background: #ffffff;
+      width: 360px;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      margin: 0;
+      color: #58cc02;
+    }
+
+    .xp {
+      background: #ffd500;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    .card {
+      background: #f7f7f7;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+
+    .word {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .translation {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .audio-btn {
+      background: #58cc02;
+      color: white;
+    }
+
+    .next-btn {
+      background: #1cb0f6;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .footer {
+      font-size: 12px;
+      color: #888;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app">
+    <div class="header">
+      <h1>MiniDuolingo</h1>
+      <div class="xp">⭐ XP: <span id="xp">0</span></div>
+    </div>
+
+    <div class="card">
+      <div class="word" id="word">Hello</div>
+      <div class="translation" id="translation">Olá</div>
+    </div>
+
+    <button class="audio-btn" onclick="playAudio()">🔊 Ouvir pronúncia</button>
+    <button class="next-btn" onclick="nextWord()">➡️ Próxima palavra</button>
+
+    <div class="footer">
+      Aprenda idiomas de forma divertida
+    </div>
+  </div>
+
+  <script>
+    const lessons = [
+      { word: "Hello", translation: "Olá" },
+      { word: "Good morning", translation: "Bom dia" },
+      { word: "Thank you", translation: "Obrigado" },
+      { word: "Please", translation: "Por favor" },
+      { word: "Good night", translation: "Boa noite" }
+    ];
+
+    let current = 0;
+    let xp = 0;
+
+    function updateLesson() {
+      document.getElementById("word").textContent = lessons[current].word;
+      document.getElementById("translation").textContent = lessons[current].translation;
+    }
+
+    function playAudio() {
+      const text = lessons[current].word;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      speechSynthesis.speak(utterance);
+    }
+
+    function nextWord() {
+      xp += 10;
+      document.getElementById("xp").textContent = xp;
+
+      current++;
+      if (current >= lessons.length) {
+        alert("🎉 Lição concluída!");
+        current = 0;
+      }
+      updateLesson();
+    }
+  </script>
+
+</body>
+</html>
